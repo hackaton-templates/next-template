@@ -51,6 +51,11 @@ const config: Config = {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
+        "team-start": "hsl(var(--team-start))",
+        "team-end": "hsl(var(--team-end))",
+      },
+      backgroundImage: {
+        team: "linear-gradient(90deg, hsl(var(--team-start)), hsl(var(--team-end)))",
       },
       borderRadius: {
         lg: "var(--radius)",
