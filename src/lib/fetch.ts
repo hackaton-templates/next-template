@@ -1,6 +1,6 @@
 import { AuthResult } from "@/api/auth";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { cookies } from "./cookie";
 import { getSession } from "./session";
 
 export async function apiFetch<T>(

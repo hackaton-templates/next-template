@@ -1,11 +1,10 @@
-import { cookies } from "next/headers";
+import { cookies } from "./cookie";
 
 export async function createSession<T>(data: T) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
   const encryptedData = await encrypt(data);
   cookies().set("session", encryptedData, {
     expires: expiresAt,
-    httpOnly: true,
     sameSite: "lax",
     path: "/",
   });
