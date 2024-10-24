@@ -1,3 +1,8 @@
+import { AuthResult } from "@/api/auth";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { getSession } from "./session";
+
 export async function apiFetch<T>(
   url: string,
   body?: unknown,
@@ -5,16 +10,28 @@ export async function apiFetch<T>(
   baseUrl?: string
 ): Promise<T> {
   baseUrl ??= process.env.NEXT_PUBLIC_SELF_URL!;
-  const response = await fetch(`${baseUrl}${url}`, {
+  const authData = await getSession<AuthResult>();
+
+  const headers = new Headers(options.headers ?? {});
+  headers.set("Cookie", cookies().toString());
+  headers.set("Content-Type", "application/json");
+
+  if (authData) {
+    headers.set("Authorization", `Bearer ${authData.accessToken}`);
+  }
+
+  const requestOptions = {
     body: JSON.stringify(body),
     ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...(options.headers || {}),
-    },
-  });
+    headers,
+  };
+  let response = await fetch(`${baseUrl}${url}`, requestOptions);
 
   if (!response.ok) {
+    if (response.status === 401) {
+      redirect("/sign-out");
+    }
+
     let errorMessage = await response.text();
     try {
       const errorData = JSON.parse(errorMessage);
