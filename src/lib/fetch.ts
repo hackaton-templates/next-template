@@ -1,7 +1,7 @@
 import { AuthResult } from "@/api/auth";
 import { redirect } from "next/navigation";
-import { cookies } from "./cookie";
-import { getSession } from "./session";
+import { cookies } from "./auth/cookie";
+import { getSession } from "./auth/session";
 
 export async function apiFetch<T>(
   url: string,

@@ -1,7 +1,7 @@
 "use server";
 
 import * as api from "@/api/auth";
-import { createSession } from "@/lib/session";
+import { createSession } from "@/lib/auth/session";
 
 type ReturnValue = [boolean, string | null];
 

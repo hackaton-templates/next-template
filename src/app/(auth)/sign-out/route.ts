@@ -1,5 +1,5 @@
 import { logout } from "@/api/auth";
-import { deleteSession } from "@/lib/session";
+import { deleteSession } from "@/lib/auth/session";
 import { redirect } from "next/navigation";
 
 export async function GET() {
