@@ -1,14 +1,17 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { AuthCredentials } from "@/api/auth";
 import * as Card from "@/components/ui/card";
 import * as Form from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { LoadingButton } from "@/components/ui/loading";
+import { useToast } from "@/hooks/use-toast";
 import signInForm, { SignInData } from "@/lib/forms/sign-in";
-import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { HTMLAttributes } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useFormContext } from "react-hook-form";
+import { signIn } from "../actions/auth";
 
 export default function SignInForm() {
   return (
@@ -19,20 +22,20 @@ export default function SignInForm() {
           Пожалуйста, войдите в систему.
         </Card.CardDescription>
       </Card.CardHeader>
-      <Card.CardContent>
-        <SignInFormContent id="form-sign-in" />
-      </Card.CardContent>
-      <Card.CardFooter>
-        <Button className="w-full" type="submit" form="form-sign-in">
-          Вход
-        </Button>
-      </Card.CardFooter>
+      <SignInFormProvider>
+        <Card.CardContent>
+          <SignInFormContent />
+        </Card.CardContent>
+        <Card.CardFooter>
+          <SignInButton />
+        </Card.CardFooter>
+      </SignInFormProvider>
     </Card.Card>
   );
 }
 
-function SignInFormContent({
-  className,
+function SignInFormProvider({
+  children,
   ...props
 }: HTMLAttributes<HTMLFormElement>) {
   const form = useForm<SignInData>({
@@ -42,45 +45,70 @@ function SignInFormContent({
       password: "",
     },
   });
+  const { toast } = useToast();
+  const router = useRouter();
 
-  const handleSubmit = (data: SignInData) => {
-    console.log(data);
+  const handleSubmit = async (data: AuthCredentials) => {
+    const [ok, errorMessage] = await signIn(data);
+    const message = ok ? "Добро пожаловать!" : errorMessage!;
+    toast({ title: message });
+
+    if (ok) router.push("/");
   };
 
   return (
     <Form.Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleSubmit)}
-        className={cn("space-y-2", className)}
-        {...props}
-      >
-        <Form.FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <Form.FormItem>
-              <Form.FormLabel>Логин</Form.FormLabel>
-              <Form.FormControl>
-                <Input placeholder="admin@admin.ru" {...field} />
-              </Form.FormControl>
-              <Form.FormMessage />
-            </Form.FormItem>
-          )}
-        />
-        <Form.FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <Form.FormItem>
-              <Form.FormLabel>Пароль</Form.FormLabel>
-              <Form.FormControl>
-                <Input type="password" placeholder="●●●●●●●●" {...field} />
-              </Form.FormControl>
-              <Form.FormMessage />
-            </Form.FormItem>
-          )}
-        />
+      <form onSubmit={form.handleSubmit(handleSubmit)} {...props}>
+        {children}
       </form>
     </Form.Form>
+  );
+}
+
+function SignInFormContent() {
+  const form = useFormContext();
+
+  return (
+    <div className="space-y-2">
+      <Form.FormField
+        control={form.control}
+        name="email"
+        render={({ field }) => (
+          <Form.FormItem>
+            <Form.FormLabel>Логин</Form.FormLabel>
+            <Form.FormControl>
+              <Input placeholder="admin@admin.ru" {...field} />
+            </Form.FormControl>
+            <Form.FormMessage />
+          </Form.FormItem>
+        )}
+      />
+      <Form.FormField
+        control={form.control}
+        name="password"
+        render={({ field }) => (
+          <Form.FormItem>
+            <Form.FormLabel>Пароль</Form.FormLabel>
+            <Form.FormControl>
+              <Input type="password" placeholder="●●●●●●●●" {...field} />
+            </Form.FormControl>
+            <Form.FormMessage />
+          </Form.FormItem>
+        )}
+      />
+    </div>
+  );
+}
+
+function SignInButton() {
+  const { formState } = useFormContext();
+  return (
+    <LoadingButton
+      className="w-full"
+      type="submit"
+      loading={formState.isSubmitting}
+    >
+      Вход
+    </LoadingButton>
   );
 }
