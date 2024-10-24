@@ -25,7 +25,7 @@ export async function apiFetch<T>(
     ...options,
     headers,
   };
-  let response = await fetch(`${baseUrl}${url}`, requestOptions);
+  const response = await fetch(`${baseUrl}${url}`, requestOptions);
 
   if (!response.ok) {
     if (response.status === 401) {
