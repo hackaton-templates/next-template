@@ -5,7 +5,10 @@ export const clientConfig = {
     queries: {
       staleTime: 60 * 1000,
       throwOnError(error, query) {
-        if (error.message == "NEXT_REDIRECT") return false;
+        return true;
+      },
+      retry(failureCount, error) {
+        if (error.message === "NEXT_REDIRECT") return false;
         return true;
       },
     },
