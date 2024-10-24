@@ -1,3 +1,4 @@
+import ReactQueryProvider from "@/components/providers/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -21,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className={`${font.className} antialiased`}>
-        {children}
+        <ReactQueryProvider>{children}</ReactQueryProvider>
         <Toaster />
       </body>
     </html>
