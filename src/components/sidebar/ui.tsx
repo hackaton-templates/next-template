@@ -47,7 +47,7 @@ export function DashboardButton({
   const isActive = useMemo(() => {
     if (exact) return path === link;
     return path.startsWith(link);
-  }, [path]);
+  }, [path, link, exact]);
 
   return (
     <Wrapper>
@@ -71,7 +71,7 @@ export function DashboardMenu({
   const open = useMemo(() => {
     if (!link) return false;
     return path.startsWith(link);
-  }, [path]);
+  }, [path, link]);
 
   return (
     <Collapsible className="group/collapsible" defaultOpen={open}>
