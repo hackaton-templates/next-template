@@ -37,6 +37,7 @@ export function Title(props: HTMLAttributes<HTMLDivElement>) {
 
 export function TitleInit({ title }: { title: string }) {
   const { setTitle } = useTitleContext();
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- It will never be updated cause it stored in context
   useEffect(() => setTitle(title), []);
   return <></>;
 }

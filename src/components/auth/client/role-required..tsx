@@ -19,7 +19,7 @@ export default function RoleRequired({
   const hasPermission = useMemo(() => {
     if (isLoading || isError) return false;
     return roles.some((role) => data?.roles.includes(role));
-  }, [isLoading, isError, roles]);
+  }, [isLoading, isError, roles]); // eslint-disable-line react-hooks/exhaustive-deps -- data?.roles will be updated when isLoading is updated
 
   if (!hasPermission) return <></>;
   return <>{children}</>;
