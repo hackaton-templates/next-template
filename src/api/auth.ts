@@ -1,5 +1,6 @@
 import { apiFetch } from "@/lib/fetch";
 import { SignInData } from "@/lib/forms/sign-in";
+import { User } from "./user";
 
 export type AuthCredentials = SignInData;
 
@@ -7,15 +8,7 @@ export interface AuthResult {
   accessToken: string;
   refreshToken: string;
 }
-
-export interface User {
-  id: string;
-  lastName: string;
-  firstName: string;
-  middleName: string;
-  email: string;
-  roles: string[];
-}
+export type { User };
 
 export async function auth(credentials: AuthCredentials) {
   return await apiFetch<AuthResult>("/api/login", credentials, {

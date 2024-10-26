@@ -1,6 +1,7 @@
 "use client";
 
 import { User } from "@/api/auth";
+import { getAvatar } from "@/api/user";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -50,7 +51,7 @@ export default function SidebarFooterMenu({ user }: { user: User }) {
 }
 
 function SidebarFooterDropdownTrigger({ user }: { user: User }) {
-  const avatar = toAvatar(user);
+  const avatar = getAvatar(user);
   return (
     <DropdownMenuTrigger asChild>
       <SidebarMenuButton size="lg" className="gap-0">
@@ -67,7 +68,7 @@ function SidebarFooterDropdownTrigger({ user }: { user: User }) {
 }
 
 function SidebarFooterDropdownHeader({ user }: { user: User }) {
-  const avatar = toAvatar(user);
+  const avatar = getAvatar(user);
   return (
     <DropdownMenuLabel className="p-0 font-normal">
       <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
@@ -83,8 +84,4 @@ function SidebarFooterDropdownHeader({ user }: { user: User }) {
       </div>
     </DropdownMenuLabel>
   );
-}
-
-function toAvatar(user: User) {
-  return `https://api.dicebear.com/9.x/micah/svg?backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&seed=${user.email}`;
 }
