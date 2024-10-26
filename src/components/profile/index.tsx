@@ -1,5 +1,5 @@
 import { getAvatar, getFullName, getRoleFriendly, User } from "@/api/user";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { DialogProps } from "@radix-ui/react-dialog";
 import Link from "next/link";
 import { Avatar, AvatarImage } from "../ui/avatar";
@@ -17,6 +17,7 @@ export default function Profile({ user, ...props }: ProfileProps) {
   return (
     <Dialog {...props}>
       <DialogContent className="flex flex-col items-center gap-2">
+        <DialogTitle className="sr-only">Профиль пользователя</DialogTitle>
         <Avatar className="size-32">
           <AvatarImage src={avatar} />
         </Avatar>
