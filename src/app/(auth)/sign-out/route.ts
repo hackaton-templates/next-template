@@ -1,6 +1,6 @@
 import { logout } from "@/api/auth";
 import { deleteSession } from "@/lib/auth/session";
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 
 export async function GET() {
   try {
@@ -9,5 +9,5 @@ export async function GET() {
     // Ignore errors during server logout
   }
   await deleteSession();
-  redirect("/sign-in");
+  redirect("/sign-in", RedirectType.replace);
 }
