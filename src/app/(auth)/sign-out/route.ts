@@ -9,5 +9,5 @@ export async function GET() {
     // Ignore errors during server logout
   }
   await deleteSession();
-  redirect("/sign-in", RedirectType.replace);
+  redirect("/sign-in?reload", RedirectType.replace);
 }

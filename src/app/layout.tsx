@@ -1,5 +1,6 @@
 import ReactQueryProvider from "@/components/providers/react-query";
 import { Toaster } from "@/components/ui/toaster";
+import PageReloader from "@/components/util/page-reloader";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -22,6 +23,7 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className={`${font.className} antialiased`}>
+        <PageReloader />
         <ReactQueryProvider>{children}</ReactQueryProvider>
         <Toaster />
       </body>
