@@ -15,7 +15,7 @@ import { signIn } from "../actions/auth";
 
 export default function SignInForm() {
   return (
-    <Card.Card className="min-w-96">
+    <Card.Card className="w-full sm:w-auto sm:min-w-96">
       <Card.CardHeader>
         <Card.CardTitle>Авторизация</Card.CardTitle>
         <Card.CardDescription>
