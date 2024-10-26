@@ -15,12 +15,16 @@ import {
 import { SidebarMenuButton, useSidebar } from "@/components/ui/sidebar";
 import { BadgeCheck, ChevronsUpDown, LogOut } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import Profile from "../profile";
 
 export default function SidebarFooterMenu({ user }: { user: User }) {
   const { isMobile } = useSidebar();
+  const [profileOpen, setProfileOpen] = useState(false);
 
   return (
     <DropdownMenu>
+      <Profile user={user} open={profileOpen} onOpenChange={setProfileOpen} />
       <SidebarFooterDropdownTrigger user={user} />
       <DropdownMenuContent
         className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
@@ -31,7 +35,7 @@ export default function SidebarFooterMenu({ user }: { user: User }) {
         <SidebarFooterDropdownHeader user={user} />
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setProfileOpen(true)}>
             <BadgeCheck />
             Мой профиль
           </DropdownMenuItem>
